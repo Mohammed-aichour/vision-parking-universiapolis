@@ -17,13 +17,21 @@ Developed as part of the Fab Lab engineering team (contributor: **Zinedine Tlems
 
 ---
 
-## 📸 Overview & Dashboard Preview
+## 📸 Dashboards & Live Monitoring Previews
 
-The system analyzes camera footage, identifies vehicle presence within pre-calibrated parking space polygons, stabilizes states over time, and serves an interactive web dashboard for facility operators.
+The system processes real-world surveillance video streams, estimates spot occupancy using calibrated polygonal ROIs, and renders real-time interactive web dashboards for facility operators.
 
-![Dashboard Preview](05_RESULTATS_DEMO/apercu.jpg)
+### 1. Universiapolis Campus Parking Dashboard (Camera IP7 — 18 Spaces)
+> Evaluated on the 10-minute continuous stream from campus camera IP7. Displays real-time occupancy counts, timeline synchronization, and dynamic 2D top-down parking layout.
 
-*Demonstration dashboard showing real-time occupancy counts, synchronized annotated video playback, and a 2D top-down parking space diagram.*
+![Universiapolis Campus Parking Dashboard](05_RESULTATS_DEMO/dashboard_ip7_screenshot.png)
+
+---
+
+### 2. Outdoor High-Density CCTV Parking Dashboard (101 Spaces)
+> Evaluated on a 4K surveillance camera stream across 101 outdoor parking spots (PKLot dataset benchmark). Compensates for wide-angle perspective distortion across 3 extensive zones.
+
+![Outdoor CCTV 101-Space Parking Dashboard](08_RESULTATS_NOUVELLE_VIDEO/dashboard_cctv_101_screenshot.png)
 
 ---
 
@@ -81,12 +89,35 @@ flowchart LR
 
 ---
 
+## 📹 Evaluated Video Datasets & Camera Streams
+
+The project was evaluated and tested across two distinct real-world video streams to validate detection accuracy, perspective invariance, and system scalability:
+
+| Parameter / Feature | Stream 1: Universiapolis Campus IP7 | Stream 2: Outdoor CCTV Parking (PKLot) |
+|---|---|---|
+| **Video Source File** | `01_VIDEO_SOURCE/video_ip7_10_minutes.mp4` | `01_VIDEO_SOURCE/parking_cctv_softserve.mp4` |
+| **Perspective Angle** | Elevated campus diagonal view | High elevated outdoor commercial CCTV view |
+| **Resolution & FPS** | 1280 × 960 (4:3) @ 25 FPS | 3840 × 2160 (4K UHD 16:9) @ 30 FPS |
+| **Duration** | 10 minutes (15,000 frames) | 15 seconds evaluation sequence |
+| **Monitored Capacity** | **18 spots** (Zone A: 6, Zone B: 5, Zone C: 7) | **101 spots** (Zone A: 31, Zone B: 39, Zone C: 31) |
+| **Ground Truth Geometry** | `02_POLYGONES/places_18.json` | `02_POLYGONES/places_cctv_101.json` |
+| **Observed Occupancy** | 5 Occupied, 12 Free, 1 Unknown | 22 Occupied, 79 Free, 0 Unknown |
+| **Detection Challenges** | Vehicle parking maneuvers (B02), edge occlusions (C07), arrival timestamps | Wide-angle perspective distortion across distant rows, dense multi-vehicle clustering |
+| **Dashboard URL** | `http://127.0.0.1:8001/` | `http://127.0.0.1:8002/` |
+| **One-Click Launcher** | `OUVRIR_TABLEAU_DE_BORD.cmd` | `OUVRIR_NOUVEAU_PARKING.cmd` |
+
+---
+
 ## 📂 Project Structure
 
 ```text
 PROJET_PARKING_IP7/
-├── 01_VIDEO_SOURCE/             # Sample source video for evaluation (IP7 10-min recording)
-├── 02_POLYGONES/                # Calibrated coordinates for the 18 parking spots (places_18.json)
+├── 01_VIDEO_SOURCE/             # Video streams under evaluation
+│   ├── video_ip7_10_minutes.mp4 # Universiapolis IP7 10-min recording (18 spaces)
+│   └── parking_cctv_softserve.mp4 # High-density outdoor 4K CCTV recording (101 spaces)
+├── 02_POLYGONES/                # Calibrated coordinates & ROI geometries
+│   ├── places_18.json           # Universiapolis 18 parking spots
+│   └── places_cctv_101.json     # Outdoor CCTV 101 parking spots
 ├── 03_CODE_PYTHON/              # Python source code package (parking_demo)
 │   └── parking_demo/
 │       ├── __init__.py
@@ -98,15 +129,22 @@ PROJET_PARKING_IP7/
 │       ├── render_plan.py       # 2D top-down diagram renderer
 │       └── server.py            # HTTP server with byte-range support
 ├── 04_INTERFACE_WEB/            # Dashboard HTML/CSS/JS template
-├── 05_RESULTATS_DEMO/           # Pre-rendered evaluation results
-│   ├── apercu.jpg               # Dashboard preview screenshot
-│   ├── index.html               # Web dashboard
+├── 05_RESULTATS_DEMO/           # Evaluation results (Universiapolis IP7 - 18 spots)
+│   ├── dashboard_ip7_screenshot.png # High-resolution dashboard screenshot
+│   ├── apercu.jpg               # Camera detection overlay screenshot
+│   ├── index.html               # Interactive web dashboard
 │   ├── plan_18_places.jpg       # Top-down parking diagram
-│   ├── resultats.json           # Time-indexed state database
+│   ├── resultats.json           # Time-indexed occupancy database
 │   └── video_annotee.mp4        # Annotated demonstration video
 ├── 06_DOCUMENTS/                # Technical documentation, synthesis PDF, and presentation notes
 ├── 07_MODELE_YOLO/              # Pretrained YOLO weights (yolo26n.pt)
-├── 08_RESULTATS_NOUVELLE_VIDEO/ # New evaluation results (101-space outdoor CCTV video)
+├── 08_RESULTATS_NOUVELLE_VIDEO/ # Evaluation results (Outdoor CCTV - 101 spots)
+│   ├── dashboard_cctv_101_screenshot.png # High-resolution dashboard screenshot
+│   ├── apercu.jpg               # Camera detection overlay screenshot
+│   ├── index.html               # Interactive web dashboard
+│   ├── plan_18_places.jpg       # Top-down diagram / detection view
+│   ├── resultats.json           # Occupancy database (79 free, 22 occupied)
+│   └── video_annotee.mp4        # Annotated demonstration video
 ├── 09_HEBERGEMENT_DEMO/         # Flask web demo architecture for cloud hosting (Vercel)
 ├── INSTALLER_OUTILS.cmd         # One-click environment installation script
 ├── OUVRIR_TABLEAU_DE_BORD.cmd   # One-click local dashboard launcher (port 8001)
