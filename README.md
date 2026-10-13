@@ -106,9 +106,11 @@ PROJET_PARKING_IP7/
 │   └── video_annotee.mp4        # Annotated demonstration video
 ├── 06_DOCUMENTS/                # Technical documentation, synthesis PDF, and presentation notes
 ├── 07_MODELE_YOLO/              # Pretrained YOLO weights (yolo26n.pt)
+├── 08_RESULTATS_NOUVELLE_VIDEO/ # New evaluation results (101-space outdoor CCTV video)
 ├── 09_HEBERGEMENT_DEMO/         # Flask web demo architecture for cloud hosting (Vercel)
 ├── INSTALLER_OUTILS.cmd         # One-click environment installation script
 ├── OUVRIR_TABLEAU_DE_BORD.cmd   # One-click local dashboard launcher (port 8001)
+├── OUVRIR_NOUVEAU_PARKING.cmd   # One-click new video dashboard launcher (port 8002)
 ├── OUVRIR_ATELIER.cmd           # One-click visual calibration workshop launcher
 ├── OUVRIR_DEMO_PROTEGEE.cmd     # One-click authenticated demo launcher (port 8010)
 ├── requirements.txt             # Python dependencies
@@ -163,7 +165,22 @@ Open your browser at `http://127.0.0.1:8001/`.
 
 ---
 
-### Option B: Launch the Interactive Calibration Workshop
+### Option B: Launch the New 101-Space Parking Dashboard
+To view the newly analyzed outdoor CCTV demonstration (101 spots across Zones A, B, and C):
+
+```bash
+# Windows shortcut
+Double-click OUVRIR_NOUVEAU_PARKING.cmd
+
+# Or via command line:
+set PYTHONPATH=03_CODE_PYTHON
+python -m parking_demo serve --dir 08_RESULTATS_NOUVELLE_VIDEO --port 8002
+```
+Open your browser at `http://127.0.0.1:8002/`.
+
+---
+
+### Option C: Launch the Interactive Calibration Workshop
 To adjust polygon coordinates or test YOLO detections visually:
 
 ```bash
@@ -177,7 +194,7 @@ python -m parking_demo.manual_lab
 
 ---
 
-### Option C: Re-run Video Analysis
+### Option D: Re-run Video Analysis
 To analyze a new or modified video stream using the YOLO model and polygon definitions:
 
 ```bash
