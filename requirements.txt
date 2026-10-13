@@ -1,5 +1,6 @@
-ultralytics>=8.4,<9
-opencv-python>=4.10,<5
-lap>=0.5.12,<1
-imageio-ffmpeg>=0.6,<1
-Pillow>=10,<13
+# Dépendances principales pour Vision Parking Universiapolis
+opencv-python>=4.8.0
+numpy>=1.24.0
+flask>=3.0.0
+werkzeug>=3.0.0
+ultralytics>=8.0.0

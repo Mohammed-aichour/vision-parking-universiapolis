@@ -16,8 +16,8 @@ from werkzeug.security import check_password_hash
 BASE = Path(__file__).resolve().parent
 PRIVATE_ASSETS = BASE / "private_assets"
 USERNAME = "parking.universiapolis@e-polytechnique.ma"
-PASSWORD_HASH = os.environ["PARKING_PASSWORD_HASH"]
-SECRET_KEY = os.environ["SECRET_KEY"]
+PASSWORD_HASH = os.getenv("PARKING_PASSWORD_HASH", "")
+SECRET_KEY = os.getenv("SECRET_KEY", "vision-parking-secret-key-fallback")
 
 app = Flask(__name__, template_folder=str(BASE / "templates"))
 app.secret_key = SECRET_KEY
@@ -74,16 +74,19 @@ def login():
         else:
             username = request.form.get("username", "").strip()
             password = request.form.get("password", "")
-            valid_user = hmac.compare_digest(username.encode("utf-8"), USERNAME.encode("utf-8"))
-            valid_password = check_password_hash(PASSWORD_HASH, password)
-            if valid_user and valid_password:
-                ATTEMPTS.pop(ip, None)
-                session.clear()
-                session["authenticated"] = True
-                session.permanent = True
-                return redirect(url_for("home"))
-            ATTEMPTS.setdefault(ip, []).append(time.monotonic())
-            error = "Identifiant ou mot de passe incorrect."
+            if not PASSWORD_HASH:
+                error = "Configuration serveur : variable PARKING_PASSWORD_HASH non définie."
+            else:
+                valid_user = hmac.compare_digest(username.encode("utf-8"), USERNAME.encode("utf-8"))
+                valid_password = check_password_hash(PASSWORD_HASH, password)
+                if valid_user and valid_password:
+                    ATTEMPTS.pop(ip, None)
+                    session.clear()
+                    session["authenticated"] = True
+                    session.permanent = True
+                    return redirect(url_for("home"))
+                ATTEMPTS.setdefault(ip, []).append(time.monotonic())
+                error = "Identifiant ou mot de passe incorrect."
     return render_template("login.html", error=error, username=USERNAME), 200
 
 
