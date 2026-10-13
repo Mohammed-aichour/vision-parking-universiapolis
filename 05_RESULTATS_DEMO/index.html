@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vision Parking | Universiapolis</title>
+  <style>
+    :root { color-scheme:dark; --bg:#08111f; --surface:#111e31; --surface2:#17263a; --line:#26394f; --text:#f1f6fc; --muted:#a4b7cb; --green:#36d399; --red:#ff6474; --amber:#f2bd62; --blue:#55bfff; }
+    * { box-sizing:border-box; } body { margin:0; background:radial-gradient(circle at 20% -10%,#153453 0,transparent 34%),var(--bg); color:var(--text); font:15px/1.5 "Segoe UI",Arial,sans-serif; }
+    button { font:inherit; } .shell { max-width:1660px; margin:auto; padding:0 clamp(18px,3vw,48px); }
+    .topbar { border-bottom:1px solid var(--line); background:#0b1727e8; } .topbar .shell { min-height:66px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { display:flex; gap:11px; align-items:center; font-weight:800; letter-spacing:.06em; font-size:15px; } .brandmark { width:29px; height:29px; border:2px solid var(--blue); border-radius:8px; display:grid; place-items:center; color:var(--blue); font-size:15px; }
+    .topright { display:flex; gap:12px; align-items:center; color:var(--muted); font-size:13px; } .pill { padding:5px 10px; border-radius:100px; background:#163b4c; color:#9ae6ff; font-weight:700; font-size:11px; letter-spacing:.08em; }
+    header.hero { padding:37px 0 29px; } .eyebrow { color:var(--blue); text-transform:uppercase; font-size:11px; letter-spacing:.2em; font-weight:800; }
+    h1 { font-size:clamp(31px,4.1vw,54px); line-height:1.07; letter-spacing:-.035em; margin:8px 0 9px; } .hero p { color:var(--muted); font-size:16px; margin:0; max-width:760px; }
+    .notice { color:#c4d7e9; font-size:13px; border-left:3px solid var(--blue); background:#112940; padding:10px 15px; border-radius:0 8px 8px 0; margin-bottom:22px; }
+    .stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:18px; } .stat { background:var(--surface); border:1px solid var(--line); border-radius:13px; padding:17px 20px; min-width:0; }
+    .stat .label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.08em; font-weight:700; } .stat .value { display:block; font-size:39px; line-height:1.15; font-weight:800; margin-top:7px; font-variant-numeric:tabular-nums; }
+    .stat.total .value { color:var(--text); } .stat.free .value { color:var(--green); } .stat.occupied .value { color:var(--red); } .stat.unknown .value { color:var(--amber); }
+    .main-grid { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(420px,.95fr); gap:18px; align-items:start; } .camera-column { display:grid; gap:18px; min-width:0; align-content:start; } .panel { background:var(--surface); border:1px solid var(--line); border-radius:14px; overflow:hidden; }
+    .panel-head { padding:17px 20px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; gap:12px; } .panel h2 { margin:0; font-size:17px; letter-spacing:-.01em; } .small { color:var(--muted); font-size:12px; }
+    .video-wrap { padding:16px; } video { display:block; width:100%; background:#040a10; border-radius:9px; aspect-ratio:4/3; } .video-meta { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; padding:13px 2px 1px; color:var(--muted); font-size:12px; }
+    .video-meta a { color:var(--blue); text-decoration:none; font-weight:700; } .video-meta a:hover { text-decoration:underline; }
+    .legend { display:flex; gap:17px; flex-wrap:wrap; align-items:center; padding:0 18px 18px; color:var(--muted); font-size:12px; } .legend span { display:flex; align-items:center; gap:6px; } .dot { width:9px; height:9px; border-radius:50%; display:inline-block; background:currentColor; flex:none; }
+    .legend .free,.space.free .dot { color:var(--green); } .legend .occupied,.space.occupied .dot { color:var(--red); } .legend .unknown,.space.unknown .dot { color:var(--amber); } .legend .detected { color:var(--blue); }
+    .side { display:grid; gap:18px; } .group { padding:16px 18px 18px; border-bottom:1px solid var(--line); } .group:last-child { border-bottom:0; } .group-title { display:flex; justify-content:space-between; align-items:center; margin-bottom:11px; font-weight:800; font-size:13px; } .group-title small { color:var(--muted); font-size:11px; font-weight:600; }
+    .spaces { display:grid; grid-template-columns:repeat(auto-fit,minmax(98px,1fr)); gap:7px; } .space { border:1px solid var(--line); background:var(--surface2); border-radius:8px; padding:9px 10px; min-height:62px; } .space .id { font-weight:800; font-size:13px; letter-spacing:.035em; } .space .status { display:flex; align-items:center; gap:6px; color:var(--muted); font-size:11px; margin-top:4px; }
+    .space.free { border-color:#235947; } .space.occupied { border-color:#74394b; } .space.unknown { border-color:#715936; } .timeline { padding:10px 18px 18px; max-height:290px; overflow:auto; }
+    .map-body { padding:12px 16px 8px; } .map-body svg { display:block; width:100%; height:auto; border-radius:10px; background:#0a1726; }
+    .map-note { padding:0 17px 16px; color:var(--muted); font-size:12px; }
+    .map-slot polygon { stroke-width:2.5; transition:fill .2s,stroke .2s; } .map-slot.free polygon { fill:#24bd82; stroke:#66e2ad; } .map-slot.occupied polygon { fill:#f05b69; stroke:#ff9ba6; } .map-slot.unknown polygon { fill:#f2c35a; stroke:#ffe094; }
+    .map-slot text { fill:#0b1a26; font:800 15px "Segoe UI",Arial,sans-serif; text-anchor:middle; dominant-baseline:middle; pointer-events:none; }
+    .event { width:100%; color:var(--text); background:transparent; border:0; border-bottom:1px solid var(--line); padding:11px 2px; display:flex; justify-content:space-between; align-items:center; gap:10px; text-align:left; cursor:pointer; } .event:hover { color:var(--blue); } .event .event-place { font-weight:800; font-size:14px; } .event .event-detail { color:var(--muted); font-size:11px; display:block; margin-top:2px; } .event time { color:var(--text); font-weight:800; font-size:15px; font-variant-numeric:tabular-nums; white-space:nowrap; flex:none; } .event time small { display:block; color:var(--muted); font-size:10px; font-weight:500; text-align:right; } .initial-note { color:var(--muted); font-size:11px; line-height:1.45; padding:12px 2px 2px; } .empty { color:var(--muted); padding:10px 0; font-size:13px; }
+    footer { padding:25px 0 45px; color:var(--muted); font-size:12px; } @media(max-width:1080px) { .main-grid { grid-template-columns:1fr; } .side { grid-template-columns:1fr 1fr; } } @media(max-width:700px) { .stats { grid-template-columns:repeat(2,1fr); } .side { grid-template-columns:1fr; } .topright .pill { display:none; } .stat .value { font-size:30px; } }
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="shell"><div class="brand"><div class="brandmark">P</div><span>UNIVERSIAPOLIS</span></div><div class="topright"><span>Caméra IP7</span><span class="pill">DÉMONSTRATION VIDÉO</span></div></div></div>
+  <main class="shell">
+    <header class="hero"><div class="eyebrow">Analyse visuelle du stationnement</div><h1>Vision Parking</h1><p>Suivi des places de parking par caméra · Détection des véhicules et occupation estimée en vidéo.</p></header>
+    <div class="notice">Analyse d'un enregistrement. 18 places sont répertoriées : 6 à gauche, 5 au milieu et 7 à droite. Une nouvelle place devient occupée après 8 secondes de stationnement confirmé. Le plan à droite montre les mêmes états, sans les voitures.</div>
+    <section class="stats" aria-label="Situation des places"><div class="stat total"><span class="label">Places suivies</span><strong class="value" id="total">–</strong></div><div class="stat free"><span class="label">Libres</span><strong class="value" id="free">–</strong></div><div class="stat occupied"><span class="label">Occupées</span><strong class="value" id="occupied">–</strong></div><div class="stat unknown"><span class="label">Inconnues</span><strong class="value" id="unknown">–</strong></div></section>
+    <div class="main-grid">
+      <div class="camera-column"><section class="panel"><div class="panel-head"><h2>Vue caméra et détection</h2><span class="small" id="clock">00:00 / 00:00</span></div><div class="video-wrap"><video id="video" controls preload="metadata" src="video_annotee.mp4?v=ip7-18-7"></video><div class="video-meta"><span id="source">Chargement de l'analyse…</span><span><a href="plan_18_places.jpg?v=ip7-18-7" target="_blank">Plan des zones visibles</a> · <a href="video_annotee.mp4?v=ip7-18-7" download>Télécharger la vidéo</a></span></div></div><div class="legend"><span class="free"><i class="dot"></i>Place libre</span><span class="occupied"><i class="dot"></i>Place occupée</span><span class="unknown"><i class="dot"></i>État inconnu</span><span class="detected"><i class="dot"></i>Véhicule dans l'allée suivie</span></div></section><section class="panel timeline-panel"><div class="panel-head"><h2>Heures de stationnement</h2></div><div class="timeline" id="events"><div class="empty">Chargement des heures de la caméra…</div></div></section></div>
+      <div class="side"><section class="panel"><div class="panel-head"><h2>Plan des places · vue de haut</h2><span class="small">18 places</span></div><div class="map-body"><svg id="topdown" viewBox="0 0 580 385" role="img" aria-label="Plan schématique des 18 places, sans voitures"></svg></div><div class="map-note">Schéma sans véhicules · vert : libre · rouge : occupée · jaune : inconnue</div></section><section class="panel"><div class="panel-head"><h2>État des 18 places</h2><span class="small" id="vehicles">– véhicule dans l'allée</span></div><div id="groups"></div></section></div>
+    </div>
+    <footer>Universiapolis · Démonstration sur vidéo enregistrée. Les résultats devront être validés sur site avant un usage opérationnel.</footer>
+  </main>
+  <script>
+    const $ = id => document.getElementById(id);
+    const labels = {"libre":"Libre", "occupée":"Occupée", "inconnue":"Inconnue"};
+    const classes = {"libre":"free", "occupée":"occupied", "inconnue":"unknown"};
+    let report;
+    const svgNS='http://www.w3.org/2000/svg';
+    function svgNode(tag,attrs={}) { const el=document.createElementNS(svgNS,tag); for(const [name,value] of Object.entries(attrs)) el.setAttribute(name,value); return el; }
+    function buildPlan() {
+      const svg=$('topdown'); svg.replaceChildren();
+      svg.append(svgNode('rect',{x:0,y:0,width:580,height:385,fill:'#0a1726'}));
+      for(const x of [185,375]) svg.append(svgNode('line',{x1:x,y1:68,x2:x,y2:345,stroke:'#607389','stroke-width':2,'stroke-dasharray':'10 12',opacity:.7}));
+      const rows=[['A',28,78,125,37,5],['B',218,96,125,40,6],['C',408,68,125,34,5]];
+      for(const [prefix,x,start,w,h,gap] of rows) {
+        const ids=report.places.filter(id=>id.startsWith(prefix));
+        const caption=svgNode('text',{x:x+w/2,y:start-18,fill:'#a4b7cb','text-anchor':'middle','font-size':13,'font-weight':700});
+        caption.textContent=prefix==='A'?'A · GAUCHE':prefix==='B'?'B · CENTRE':'C · DROITE'; svg.append(caption);
+        ids.forEach((id,index)=>{
+          const y=start+index*(h+gap); const group=svgNode('g',{'class':'map-slot unknown','data-place':id});
+          group.append(svgNode('polygon',{points:`${x},${y} ${x+w},${y} ${x+w},${y+h} ${x},${y+h}`}));
+          const title=svgNode('title'); title.textContent=`${id} · état inconnu`; group.append(title);
+          const label=svgNode('text',{x:x+w/2,y:y+h/2+1}); label.textContent=id; group.append(label); svg.append(group);
+        });
+      }
+    }
+    function updatePlan(states) {
+      for(const group of $('topdown').querySelectorAll('[data-place]')) {
+        const id=group.dataset.place, state=states[id]||'inconnue';
+        group.setAttribute('class',`map-slot ${classes[state]||'unknown'}`);
+        group.querySelector('title').textContent=`${id} · ${labels[state]||'Inconnue'}`;
+      }
+    }
+    function stamp(t) { const n=Math.max(0,Math.floor(t)); return `${String(Math.floor(n/60)).padStart(2,'0')}:${String(n%60).padStart(2,'0')}`; }
+    function clockAt(t) {
+      if(!report.recording_start_clock) return `+${stamp(t)}`;
+      const [hour,minute,second]=report.recording_start_clock.split(':').map(Number);
+      const total=(hour*3600+minute*60+second+Math.round(t))%86400;
+      return `${String(Math.floor(total/3600)).padStart(2,'0')}:${String(Math.floor(total%3600/60)).padStart(2,'0')}:${String(total%60).padStart(2,'0')}`;
+    }
+    function renderParkingEvents() {
+      const arrivals=report.events.filter(e=>e.kind==='place' && e.state==='occupée').sort((a,b)=>a.time-b.time);
+      const nodes=arrivals.map(e=>{
+        const parked=e.parked_at_seconds ?? Math.max(0,e.time-report.stable_seconds);
+        const btn=document.createElement('button'); btn.className='event'; btn.type='button';
+        btn.setAttribute('aria-label',`${e.place} garée vers ${clockAt(parked)}, validée à ${clockAt(e.time)}. Voir dans la vidéo.`);
+        const detail=document.createElement('span');
+        const place=document.createElement('strong'); place.className='event-place'; place.textContent=e.place;
+        const sub=document.createElement('span'); sub.className='event-detail'; sub.textContent='Stationnement estimé · heure caméra';
+        detail.append(place,sub);
+        const time=document.createElement('time'); time.textContent=clockAt(parked);
+        const valid=document.createElement('small'); valid.textContent=`Validée à ${clockAt(e.time)}`; time.append(valid);
+        btn.append(detail,time);
+        btn.addEventListener('click',()=>{$('video').currentTime=Math.max(0,parked-3);$('video').play();});
+        return btn;
+      });
+      if(!nodes.length) { const empty=document.createElement('div'); empty.className='empty'; empty.textContent='Aucune arrivée filmée dans cet extrait.'; nodes.push(empty); }
+      const already=Object.entries(report.samples[0].states).filter(([,state])=>state==='occupée').map(([id])=>id);
+      if(already.length) { const note=document.createElement('div'); note.className='initial-note'; note.textContent=`Déjà garées à ${clockAt(0)} : ${already.join(', ')}. Leur heure d’arrivée n’est pas visible dans cet extrait.`; nodes.push(note); }
+      $('events').replaceChildren(...nodes);
+    }
+    function sampleAt(t) { let lo=0,hi=report.samples.length-1,found=0; while(lo<=hi) { const mid=(lo+hi)>>1; if(report.samples[mid].time<=t) { found=mid;lo=mid+1; } else hi=mid-1; } return report.samples[found]; }
+    function spaceNode(id,state) { const el=document.createElement('div'); el.className=`space ${classes[state]||'unknown'}`; const name=document.createElement('div'); name.className='id'; name.textContent=id; const status=document.createElement('div'); status.className='status'; const dot=document.createElement('i'); dot.className='dot'; const word=document.createElement('span'); word.textContent=labels[state]||'Inconnue'; status.append(dot,word); el.append(name,status); return el; }
+    function render() {
+      if(!report?.samples?.length) return; const t=$('video').currentTime, s=sampleAt(t);
+      $('clock').textContent=`${stamp(t)} / ${stamp(report.duration_seconds)}`; $('total').textContent=report.places.length; $('free').textContent=s.counts.libre; $('occupied').textContent=s.counts['occupée']; $('unknown').textContent=s.counts.inconnue;
+      $('vehicles').textContent=`${s.detections} véhicule${s.detections>1?'s':''} dans l'allée`;
+      updatePlan(s.states);
+      const groups=document.createDocumentFragment();
+      for(const [prefix,title] of [['A','Rangée gauche'],['B','Rangée centrale'],['C','Rangée droite']]) { const ids=report.places.filter(id=>id.startsWith(prefix)); if(!ids.length) continue; const section=document.createElement('div'); section.className='group'; const head=document.createElement('div'); head.className='group-title'; const label=document.createElement('span'); label.textContent=title; const count=document.createElement('small'); count.textContent=`${ids.length} places`; head.append(label,count); const list=document.createElement('div'); list.className='spaces'; list.replaceChildren(...ids.map(id=>spaceNode(id,s.states[id]||'inconnue'))); section.append(head,list); groups.append(section); }
+      $('groups').replaceChildren(groups);
+    }
+    fetch('resultats.json?v=ip7-18-8').then(r=>{if(!r.ok) throw Error('Résultats indisponibles');return r.json();}).then(data=>{report=data;$('source').textContent=`Source : ${data.source_name}`;buildPlan();renderParkingEvents();render();$('video').addEventListener('timeupdate',render);$('video').addEventListener('seeked',render);$('video').addEventListener('loadedmetadata',()=>{const requested=Number(new URLSearchParams(location.search).get('t'));$('video').currentTime=Number.isFinite(requested)?Math.max(0,Math.min(requested,data.duration_seconds-1)):0;render();},{once:true});}).catch(err=>{$('source').textContent=err.message;});
+  </script>
+</body>
+</html>
+
+
+
+
+
+

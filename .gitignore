@@ -1,0 +1,29 @@
+# Environments & dependencies
+.venv/
+env/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# Private access, credentials & secrets (DO NOT COMMIT)
+_ACCES_PRIVE/
+*.local.txt
+.env
+.env.*
+*.key
+*.pem
+LIEN_PUBLIC_DIRECTEUR.txt
+
+# Cloud deployment build caches & duplicates
+.vercel/
+09_HEBERGEMENT_DEMO/.vercel/
+09_HEBERGEMENT_DEMO/private_assets/
+video_temporaire.mp4
+*.tmp
+
+# Operating system artifacts
+.DS_Store
+Thumbs.db
+desktop.ini

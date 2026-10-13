@@ -1,0 +1,7 @@
+.venv/
+.vercel/
+.env*
+__pycache__/
+*.pyc
+*.local.txt
+*_PRIVE*

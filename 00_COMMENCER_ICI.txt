@@ -1,0 +1,37 @@
+PROJET PARKING INTELLIGENT IP7 — DOSSIER DE PRESENTATION
+
+OBJECTIF
+Surveiller 18 places d'une vue de camera IP7 avec OpenCV et YOLO :
+6 places A a gauche, 5 places B au milieu et 7 places C a droite.
+Le resultat est affiche dans un tableau de bord. Vert = libre ; rouge = occupee ; jaune = inconnue ; bleu = detection de voiture en circulation.
+Le plan en haut a droite montre les 18 places vues de haut, sans voitures, avec les memes etats que la video.
+Pour une voiture nouvelle, le programme attend qu'elle se stabilise dans la place puis compte huit secondes avant de la declarer occupee. En B02, la place passe au rouge vers 03:49,5 apres la manoeuvre.
+La rubrique Heures de stationnement affiche l'heure de la camera : A04 vers 09:46:26 et B02 vers 09:48:28. Les voitures deja garees sur la premiere image n'ont pas d'heure d'arrivee connue.
+Cette version est une demonstration sur 10 minutes de video enregistree. Elle n'est pas encore reliee au direct du NVR.
+
+POUR MONTRER LA DEMONSTRATION AU CHEF
+1. Double-cliquer OUVRIR_TABLEAU_DE_BORD.cmd.
+2. Ouvrir 06_DOCUMENTS\RESUME_ETAPES_OUTILS_IP7.pdf pour expliquer la methode.
+3. Si besoin, double-cliquer OUVRIR_ATELIER.cmd pour montrer la detection YOLO et la modification manuelle des places.
+4. Double-cliquer OUVRIR_DEMO_PROTEGEE.cmd pour tester la page de connexion sur ce PC (port 8010). Les identifiants se trouvent dans _ACCES_PRIVE.
+
+CONTENU, SANS FICHIERS TEMPORAIRES
+01_VIDEO_SOURCE       : la video IP7 de 10 minutes necessaire pour refaire l'analyse.
+02_POLYGONES          : les coordonnees des 18 places ; l'atelier peut y enregistrer une copie d'essai.
+03_CODE_PYTHON        : code source OpenCV, YOLO, suivi des voitures, calcul des places, interface d'edition et serveur.
+04_INTERFACE_WEB      : modele HTML du tableau de bord, indispensable lors d'une nouvelle analyse.
+05_RESULTATS_DEMO     : resultat pret a presenter : video annotee, chiffres, plan et page web.
+06_DOCUMENTS          : PDF de synthese et presentation au directeur.
+07_MODELE_YOLO        : poids du modele YOLO utilises pour reconnaitre les vehicules.
+09_HEBERGEMENT_DEMO   : version du tableau de bord avec connexion, prete pour Vercel.
+_ACCES_PRIVE          : identifiant, mot de passe et empreinte du mot de passe ; NE PAS envoyer ce dossier dans un depot Git.
+requirements.txt      : liste des bibliotheques Python necessaires.
+
+PARTAGER UN LIEN AVEC LE DIRECTEUR
+Le dossier 09_HEBERGEMENT_DEMO protege par connexion la page, la video et les resultats. Le site est publie a l'adresse https://universiapolis-parking-ai.vercel.app/ . Lire 09_HEBERGEMENT_DEMO\README_DEPLOIEMENT.md pour la mise a jour du site.
+
+MODIFIER LES PLACES
+Ouvrir OUVRIR_ATELIER.cmd, choisir une place, regler le zoom, deplacer ou redessiner les points, puis cliquer sur Enregistrer l'essai des polygones. Ouvrir ensuite REANALYSER_APRES_MODIFICATION.cmd. Le nouveau resultat est cree dans 08_RESULTATS_APRES_MODIFICATION ; la demonstration originale reste intacte.
+
+SUR UN AUTRE PC
+Installer Python 3.13, puis lancer INSTALLER_OUTILS.cmd avec une connexion Internet. Sur ce PC, les raccourcis utilisent deja les outils Python installes, meme si INSTALLER_OUTILS.cmd n'a pas ete lance dans cette copie.

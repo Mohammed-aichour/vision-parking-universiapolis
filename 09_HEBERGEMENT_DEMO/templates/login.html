@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <title>Connexion · Parking intelligent Universiapolis</title>
+  <style>
+    :root{font-family:Inter,Segoe UI,Arial,sans-serif;color:#eaf5ff;background:#071321}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr)}
+    .hero{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:100vh;padding:clamp(30px,5vw,76px);overflow:hidden;background:radial-gradient(circle at 85% 75%,#1d6870 0,transparent 35%),linear-gradient(125deg,#071827,#0b3a4b)}
+    .hero:after{content:"";position:absolute;inset:auto -10% -55% 0;height:75%;border-radius:50%;background:#19c9a52a;filter:blur(80px)}
+    .brand,.copy,.meta{position:relative;z-index:1}.brand{font-weight:800;font-size:20px;letter-spacing:.1em;text-transform:uppercase}.brand b{color:#4be0ba}
+    .eyebrow{font-size:13px;letter-spacing:.17em;text-transform:uppercase;color:#70e4c3;font-weight:800}.copy h1{font-size:clamp(42px,5vw,78px);max-width:650px;line-height:1.03;letter-spacing:-.05em;margin:20px 0}.copy p{font-size:19px;color:#c5dae8;max-width:540px;line-height:1.6}.meta{color:#b7d1df;font-size:14px}
+    .side{display:flex;align-items:center;justify-content:center;padding:36px;background:radial-gradient(circle at 100% 0%,#12324b 0,#091522 43%)}
+    .card{width:min(100%,440px);padding:clamp(28px,4vw,48px);border:1px solid #27435b;border-radius:24px;background:#0d2032;box-shadow:0 25px 70px #020b1570}
+    .icon{width:54px;height:54px;border-radius:15px;background:#0d4e51;color:#61eac4;display:grid;place-items:center;font-size:28px;margin-bottom:28px}
+    h2{margin:0 0 10px;font-size:30px;letter-spacing:-.04em}.intro{color:#9fb7c8;line-height:1.5;margin:0 0 30px}
+    label{display:block;font-weight:700;font-size:13px;margin:20px 0 8px;color:#d6e8f3}input{width:100%;padding:15px 16px;background:#071727;color:#f4fbff;border:1px solid #31516b;border-radius:11px;font:inherit;outline:none}input:focus{border-color:#49dcb9;box-shadow:0 0 0 3px #49dcb923}
+    button{width:100%;margin-top:27px;border:0;border-radius:11px;padding:16px 20px;background:#35d5ac;color:#062b2c;font:inherit;font-weight:800;cursor:pointer}button:hover{background:#64ecc8}button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+    .error{margin:20px 0 0;padding:12px 14px;color:#ffd9d9;background:#5a1b2b;border:1px solid #a83d53;border-radius:9px;font-size:14px}
+    .foot{margin:26px 0 0;color:#7f9aab;font-size:12px;line-height:1.5}
+    @media(max-width:820px){body{grid-template-columns:1fr}.hero{min-height:320px;padding:28px}.copy h1{font-size:42px}.copy p{font-size:16px}.meta{display:none}.side{min-height:55vh;padding:22px}.card{padding:28px}}
+  </style>
+</head>
+<body>
+  <section class="hero" aria-label="Présentation">
+    <div class="brand">UNIVERSIA<b>POLIS</b> <span style="color:#92b1c3;font-weight:400">/ Parking intelligent</span></div>
+    <div class="copy"><div class="eyebrow">Démonstration privée · Caméra IP7</div><h1>Une vision claire de chaque place.</h1><p>Suivi de 18 places, vidéo annotée et chronologie des stationnements pour l'évaluation du projet.</p></div>
+    <div class="meta">Présentation sur vidéo enregistrée · Accès réservé aux personnes autorisées</div>
+  </section>
+  <main class="side"><div class="card">
+    <div class="icon" aria-hidden="true">▦</div><h2>Accéder à la démonstration</h2><p class="intro">Connectez-vous pour consulter le tableau de bord.</p>
+    <form method="post" action="/connexion" autocomplete="on">
+      <label for="username">Identifiant</label><input id="username" name="username" type="email" required autocomplete="username" value="{{ username }}">
+      <label for="password">Mot de passe</label><input id="password" name="password" type="password" required autocomplete="current-password" autofocus>
+      {% if error %}<div class="error" role="alert">{{ error }}</div>{% endif %}
+      <button type="submit">Ouvrir le tableau de bord →</button>
+    </form>
+    <p class="foot">L'accès est réservé à la présentation du projet Parking intelligent Universiapolis.</p>
+  </div></main>
+</body></html>
