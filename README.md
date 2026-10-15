@@ -13,7 +13,7 @@
 
 **Vision Parking** is an institutional computer vision project requested by **Universiapolis — Université Internationale d'Agadir (UIA)** and assigned through the **Universiapolis Fab Lab** service. 
 
-Developed as part of the Fab Lab engineering team (contributor: **Zinedine Tlemsani Benhattal**), the goal was to investigate how the university's existing IP video surveillance infrastructure could be repurposed into an automated, non-intrusive smart parking occupancy monitoring system without deploying costly physical in-ground magnetic sensors or requiring new road repainting.
+Developed as part of the Fab Lab engineering team (Lead Developer: **Mohammed AICHOUR**), the goal was to investigate how the university's existing IP video surveillance infrastructure could be repurposed into an automated, non-intrusive smart parking occupancy monitoring system without deploying costly physical in-ground magnetic sensors or requiring new road repainting.
 
 ---
 
@@ -267,4 +267,4 @@ python -m parking_demo analyze --video "01_VIDEO_SOURCE/video_ip7_10_minutes.mp4
 
 - **Universiapolis — Université Internationale d'Agadir (UIA)**: Institutional project initiator and infrastructure provider.
 - **Universiapolis Fab Lab**: Engineering project framework and technical team.
-- **Contributor**: Zinedine Tlemsani Benhattal (*Génie Informatique, École Polytechnique d’Agadir — Universiapolis Fab Lab Team Member*).
+- **Lead Developer**: Mohammed AICHOUR (*Génie Informatique, École Polytechnique d’Agadir — Universiapolis Fab Lab Team Member*).
