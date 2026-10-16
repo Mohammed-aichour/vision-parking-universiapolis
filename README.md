@@ -21,14 +21,11 @@ Developed as part of the Fab Lab engineering team (Lead Developer: **Mohammed AI
 
 The system processes real-world surveillance video streams, estimates spot occupancy using calibrated polygonal ROIs, and renders real-time interactive web dashboards for facility operators.
 
-### 1. Universiapolis Campus Parking Dashboard (Camera IP7 — 18 Spaces)
-> Evaluated on the 10-minute continuous stream from campus camera IP7. Displays real-time occupancy counts, timeline synchronization, and dynamic 2D top-down parking layout.
 
-![Universiapolis Campus Parking Dashboard](05_RESULTATS_DEMO/dashboard_ip7_screenshot.png)
 
 ---
 
-### 2. Outdoor High-Density CCTV Parking Dashboard (101 Spaces)
+### . Outdoor High-Density CCTV Parking Dashboard (101 Spaces)
 > Evaluated on a 4K surveillance camera stream across 101 outdoor parking spots (PKLot dataset benchmark). Compensates for wide-angle perspective distortion across 3 extensive zones.
 
 ![Outdoor CCTV 101-Space Parking Dashboard](08_RESULTATS_NOUVELLE_VIDEO/dashboard_cctv_101_screenshot.png)
